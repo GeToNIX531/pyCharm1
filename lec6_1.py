@@ -5,7 +5,7 @@ from random import randint
 class Basic:
     def __init__(self, name):
         self.atName = name
-        self.atHP = 1001
+        self.atHP = 100
         self.atMN = 50
         self.name = name
         self.str = "X"
