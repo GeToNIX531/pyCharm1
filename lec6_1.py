@@ -1,11 +1,14 @@
+import random
 from random import randint
 
 
 class Basic:
     def __init__(self, name):
         self.atName = name
-        self.atHP = 100
+        self.atHP = 1001
         self.atMN = 50
+        self.name = name
+        self.str = "X"
 
     def status(self):
         print(f'Name: {self.atName}\n'
@@ -31,6 +34,7 @@ class Hero(Basic):
         self.atLov = 5
         self.atExp = 0
         self.atLvl = 0
+
 
     def status(self):
         super().status()
@@ -116,19 +120,35 @@ class Travnik(NPC):
         super().status()
         print(f'{self.atLVL}')
 
+class EnemyPos:
+    def __init__(self, X, Y):
+        self.X = X
+        self.Y = Y
+
 class Gameplay:
-    hero = Hero('Ричард')
+    #Создание врагов
+    def EnemySpawn(self):
+        for i in range(self.EnemyCount):
+            self.Enemy.append(EnemyPos(random.Random.randint(random, 0, self.Widht - 1), random.Random.randint(random, 0, self.Widht - 1)))
 
     def __init__(self):
+        self.Enemy = []
+        self.Widht = 20
+        self.Height = 20
+        self.EnemyCount = 10
+        self.EnemySpawn()
+
         from random import choice
         self.atStep = 1
 
-        self.atKarta = [['_' for j in range(20)] for i in range(20)]
+        self.atKarta = [['_' for j in range(self.Widht)] for i in range(self.Height)]
 
-        self.atMC = "X"
-        self.atMestoX = 10
-        self.atMestoY = 5
-        self.atKarta[self.atMestoY][self.atMestoX] = self.atMC
+        self.atMC = Hero('Ричард')
+        self.atMestoX = 3
+        self.atMestoY = 3
+        self.atKarta[self.atMestoY][self.atMestoX] = self.atMC.str
+        for i in range(self.EnemyCount):
+            self.atKarta[self.Enemy[i].Y][self.Enemy[i].X] = "O"
 
         print('Игра началась')
         self.start()
@@ -149,37 +169,28 @@ class Gameplay:
         print(f'Step:{self.atStep}')
         for s in self.atKarta: #Визуализация карты вместо print(*self.atKarta)
             print(*s)
-        self.atMC.review()
         print(f'1 - walk, 2 - eat, ...')
 
     def walk(self):
         cmd = input('1 - left, 2 - right, 3 - up, 4 - down:')
         #горизонталь ось X
         if cmd == '2':
-            self.atMC.walk()
             self.atKarta[self.atMestoY][self.atMestoX] = '_'
             self.atMestoX += 1
-            self.atMC.eat(self.atKarta[self.atMestoY][self.atMestoX])
-            self.atKarta[self.atMestoY][self.atMestoX] = self.atMC
+            self.atKarta[self.atMestoY][self.atMestoX] = self.atMC.str
         if cmd == '1':
-            self.atMC.walk()
             self.atKarta[self.atMestoY][self.atMestoX] = '_'
             self.atMestoX -= 1
-            self.atMC.eat(self.atKarta[self.atMestoY][self.atMestoX])
-            self.atKarta[self.atMestoY][self.atMestoX] = self.atMC
+            self.atKarta[self.atMestoY][self.atMestoX] = self.atMC.str
         #вертикаль ось Y
         if cmd == '3':
-            self.atMC.walk()
             self.atKarta[self.atMestoY][self.atMestoX] = '_'
             self.atMestoY -= 1
-            self.atMC.eat(self.atKarta[self.atMestoY][self.atMestoX])
-            self.atKarta[self.atMestoY][self.atMestoX] = self.atMC
+            self.atKarta[self.atMestoY][self.atMestoX] = self.atMC.str
         if cmd == '4':
-            self.atMC.walk()
             self.atKarta[self.atMestoY][self.atMestoX] = '_'
             self.atMestoY += 1
-            self.atMC.eat(self.atKarta[self.atMestoY][self.atMestoX])
-            self.atKarta[self.atMestoY][self.atMestoX] = self.atMC
+            self.atKarta[self.atMestoY][self.atMestoX] = self.atMC.str
 
 Gameplay()
 
